@@ -1,41 +1,33 @@
-import userRoute from './routers/user.js';
-import accountRoute from './routers/account.js';
-import express from 'express';
-import bodyParser from 'body-parser';
-import { MongoClient, ServerApiVersion } from 'mongodb';
-import  mongoose from 'mongoose';
+import express from "express"
+import bodyParser from "body-parser"
+import mongoose from "mongoose"
+import dotenv from "dotenv"
+import path from "path"
 
-const PORT = 3001
-const app = express();
+import userRoute from "./routes/user.js"
+import messageRoute from "./routes/messages.js"
 
-app.use(bodyParser.json())
+dotenv.config({ path: path.join(".env") })
 
-app.use('/users', userRoute)
-app.use('/acount', accountRoute)
+const app = express()
 
-const uri = "mongodb+srv://tiendat1:datdeptraiqua@appmess.znswhba.mongodb.net/?retryWrites=true&w=majority";
+app.use(bodyParser.json({ limit: "30mb", extended: true }))
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
+// app.use(cors())
 
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+app.use("/users", userRoute)
+app.use("/messages", messageRoute)
 
-client.connect(err => {
-    if (err) throw err
-    const collection = client.db("test").collection("devices");
-    console.log('is connect datdeptraiqua');
-    // perform actions on the collection object
-    client.close();
-  });
-// async function connectDB() {
-//     try {
-//         await mongoose.connect(url);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-//connectDB();
-
-// app.get('/',(req, res)=>{
-//     res.send('Hello a tien dat')
-// })
-
-// app.listen(8080,()=>{console.log('listen on port 3001')})
+mongoose
+  .connect(process.env.CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(process.env.PORT, () =>
+      console.log(`Server is running on port ${process.env.PORT}!`)
+    )
+  })
+  .catch((err) => {
+    console.log(err.message)
+  })
