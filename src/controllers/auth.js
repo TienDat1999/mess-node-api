@@ -47,6 +47,6 @@ export const Login = async (req, res) => {
 
   if (!checkPassword) return res.status(422).send('Email or Password is not correct');
 
-  const token = jwt.sign({_id: user._id}, 'VkYp3s6v9y$B?E(H+MbQeThWmZq4t7w!', { expiresIn: 60 * 60 * 24 });
+  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 * 24 });
   res.header('auth-token', token).send(token);
 }
