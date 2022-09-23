@@ -1,5 +1,7 @@
-import mongoose from "mongoose"
-import { nanoid } from "nanoid"
+import mongoose from "mongoose";
+import { customAlphabet } from "nanoid";
+
+const nanoid = customAlphabet("1234567890abcdefghi", 10);
 
 const messageSchema = mongoose.Schema({
   _id: {
@@ -21,12 +23,16 @@ const messageSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  recipient_id: {
+    type: String,
+    require: true,
+  },
   createAt: {
     type: Date,
     default: Date.now,
   },
-})
+});
 
-const MessageSchema = mongoose.model("MessageSchema", messageSchema)
+const MessageSchema = mongoose.model("MessageSchema", messageSchema);
 
-export default MessageSchema
+export default MessageSchema;
