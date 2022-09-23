@@ -7,18 +7,23 @@ const userSchema = mongoose.Schema({
     default: () => nanoid(10),
     require: true,
   },
+  email: {
+    type: String,
+    require: true,
+  },
   firstName: {
     type: String,
-    maxLength: [50, "Max length exceeded first name"],
-    require: true,
+    require: true,  
   },
   lastName: {
     type: String,
-    maxLength: [50, "Max length exceeded last name"],
     require: true,
   },
-  age: { type: Number, require: true, min: 16 },
-  createDate: {
+  password: {
+    type: String,
+    require: true,
+  },
+  createAt: {
     type: Date,
     default: Date.now,
   },
