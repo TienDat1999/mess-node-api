@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
+
+const nanoid = customAlphabet("1234567890abcdefghi", 10);
 
 const messageSchema = mongoose.Schema({
   _id: {
