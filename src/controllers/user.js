@@ -9,14 +9,14 @@ export const getUsers = async (req, res) => {
   }
 }
 
-export const createUser = async (req, res) => {
-  const user = req.body
+// export const createUser = async (req, res) => {
+//   const user = req.body
 
-  const newUser = new UserSchema(user)
-  try {
-    await newUser.save()
-    res.json(newUser)
-  } catch (err) {
-    res.json({ message: err.message })
-  }
-}
+//   const newUser = new UserSchema(user)
+//   try {
+//     await newUser.save()
+//     res.json(newUser)
+//   } catch (err) {
+//     res.json({ message: err.message })
+//   }
+// }

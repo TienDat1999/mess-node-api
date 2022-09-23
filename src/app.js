@@ -6,6 +6,7 @@ import path from "path"
 
 import userRoute from "./routes/user.js"
 import messageRoute from "./routes/messages.js"
+import auth from './routes/auth.js'
 
 dotenv.config({ path: path.join(".env") })
 
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 
 app.use("/users", userRoute)
 app.use("/messages", messageRoute)
+app.use("/auth", auth)
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
