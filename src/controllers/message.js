@@ -1,3 +1,4 @@
+
 import MessageSchema from "../models/message.js";
 
 export const getMessages = async (req, res) => {
@@ -11,18 +12,44 @@ export const getMessages = async (req, res) => {
 
 export const getMessagesFilter = async (req, res) => {
   const filterParam = req.body;
-  const param = {
-    creator_id: {
-      $in: [`${filterParam.creator_id}`, `${filterParam.recipient_id}`],
+// debugger
+  // const param = {
+  //   creator_id: {
+  //     $in: [`${filterParam.find?.creator_id}`, `${filterParam.find?.recipient_id}`],
+  //   },
+  //   recipient_id: {
+  //     $in: [`${filterParam.find?.creator_id}`, `${filterParam.find?.recipient_id}`],
+  //   },
+  // };
+  // let data = JSON.parse(filterParam)
+  // console.log(data);
+  const zxc = {
+    aggregate:[
+    { 
+        $match : { 
+            creator_id : {
+                $in: [`${filterParam.creator_id}`, `${filterParam.recipient_id}`],
+            },
+            recipient_id : {
+                $in: [`${filterParam.creator_id}`, `${filterParam.recipient_id}`],
+            } 
+            } 
     },
-    recipient_id: {
-      $in: [`${filterParam.creator_id}`, `${filterParam.recipient_id}`],
-    },
-  };
+    {
+        $lookup: {
+            from: "userschemas",
+            localField: "creator_id",
+            foreignField: "_id",
+            as: "test"
+        }
+    }
+  ]
+  }
   try {
-    const messageSchema = await MessageSchema.find(param).sort({
-      createAt: 1,
-    });
+    // const messageSchema = await MessageSchema.find(param).sort({
+    //   createAt: 1,
+    // });
+    const messageSchema = await MessageSchema.aggregate(zxc.aggregate)
     res.json(messageSchema);
   } catch (err) {
     res.json({ message: err.message });
