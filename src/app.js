@@ -29,8 +29,15 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use("/users", userRoute)
 app.use("/messages", messageRoute)
 app.use("/auth", auth)
-app.get("/", (req, res)=> {
-  return res.send('Hello world')
+app.get("/greeting", (req, res) => {
+  const response = {
+    statusCode: 200,
+    message: 'Success',
+    data: {
+      greeting: 'Hello there'
+    }
+  }
+  return res.status(200).json(response)
 })
 
 async function connectdb() {
